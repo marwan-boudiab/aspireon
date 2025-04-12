@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --background: 12 14% 63%;
+    --foreground: 251 0% 96%;
+    --card: 13 9% 46%;
+    --card-foreground: 251 0% 96%;
+    --popover: 13 9% 46%;
+    --popover-foreground: 251 0% 96%;
+    --primary: 13 18% 76%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 13 13% 57%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 13 13% 57%;
+    --muted-foreground: 251 0% 96%;
+    --accent: 13 13% 57%;
+    --accent-foreground: 251 0% 96%;
+    --destructive: 351 43% 54%;
+    --destructive-foreground: 251 0% 96%;
+    --border: 47 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    --radius: 1rem;
+    --upload-button-bg: 12 14% 63%;
+    --upload-button-uploading: 13 18% 76%;
+    --upload-button-progress: 12 14% 63%;
+    --upload-button-loading: 13 18% 76%;
+  }
+  :root[class~='dark'] {
+    --background: 243 0% 16%;
+    --foreground: 251 0% 96%;
+    --card: 238 2% 22%;
+    --card-foreground: 251 0% 96%;
+    --popover: 238 2% 22%;
+    --popover-foreground: 251 0% 96%;
+    --primary: 12 14% 63%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 240 2% 28%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 240 2% 28%;
+    --muted-foreground: 251 0% 96%;
+    --accent: 240 2% 28%;
+    --accent-foreground: 251 0% 96%;
+    --destructive: 351 43% 54%;
+    --destructive-foreground: 251 0% 96%;
+    --border: 47 0% 100%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+@layer base {
+  * {
+    scrollbar-width: thin;
+    @apply border-border font-outfit-latin;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Selection styles */
+  ::selection {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  ::-moz-selection {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+}
+@layer utilities {
+  .wrapper {
+    @apply w-full max-w-7xl p-2 pb-0 lg:mx-auto;
+  }
+
+  .ss_wrapper {
+    @apply mx-2 md:mx-0;
+  }
+
+  .flex-start {
+    @apply flex items-center justify-start;
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .h1-bold {
+    @apply text-3xl font-bold lg:text-4xl;
+  }
+
+  .h2-bold {
+    @apply text-2xl font-bold lg:text-3xl;
+  }
+
+  .h3-bold {
+    @apply text-xl font-bold lg:text-2xl;
+  }
+
+  .h4-bold {
+    @apply text-base font-bold lg:text-lg;
+  }
+
+  /* UploadThing Button Styles */
+  /* applied to container */
+  .custom-container {
+    background-color: none;
+    /* margin-top: 1rem; */
+  }
+
+  /* applied to container when readying */
+  .custom-container[data-state='readying'] {
+    background-color: none;
+  }
+
+  /* applied to button */
+  .custom-button {
+    @apply w-28 rounded-full border-2 px-2 py-1 text-xs font-medium text-foreground;
+    background-color: hsl(var(--upload-button-bg));
+  }
+
+  /* remove this style focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 */
+  .custom-button:focus-within {
+    @apply ring-0 ring-offset-0 !important;
+  }
+
+  /* applied to button when uploading */
+  .custom-button-uploading {
+    background-color: hsl(var(--upload-button-uploading));
+    color: 'white';
+    cursor: not-allowed;
+  }
+
+  .custom-button-uploading::after {
+    background-color: hsl(var(--upload-button-progress)) !important;
+  }
+
+  /* applied to the button when ready */
+  .custom-button-ready {
+    color: 'white';
+  }
+
+  /* applied to the button when not ready */
+  .custom-button-not-ready {
+    background-color: hsl(var(--upload-button-loading));
+    color: 'white';
+    cursor: not-allowed;
+  }
+
+  .custom-allowed-content {
+    @apply text-foreground !important;
+  }
+
+  /* LOADING SPINNER */
+  .loader {
+    border: 4px solid hsl(var(--secondary));
+    border-top: 4px solid hsl(var(--primary));
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

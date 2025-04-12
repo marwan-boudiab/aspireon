@@ -1,0 +1,1 @@
+ALTER TABLE "orderItems" ADD COLUMN "size" text NOT NULL;

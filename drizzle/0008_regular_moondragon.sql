@@ -1,0 +1,1 @@
+ALTER TABLE "orderItems" ALTER COLUMN "size" SET DEFAULT 'N/A';
