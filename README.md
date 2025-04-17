@@ -3,10 +3,10 @@
 A robust, feature-rich e-commerce platform built with Next.js, TypeScript, Drizzle ORM, and PostgreSQL. This application provides a complete solution with user authentication, product management, shopping cart functionality, checkout process, and administrative capabilities.
 
 <div align="center">
-  <a href="https://youtu.be/84b_1Nl1bDY">
-    <img src="https://img.youtube.com/vi/84b_1Nl1bDY/maxresdefault.jpg" alt="E-commerce Platform Demo" width="600" style="border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+  <a href="https://www.marwan-boudiab.com/projects/aspireon#demo">
+    <img src="https://crrwymojtb.ufs.sh/f/0ge4q9E4PJeZYHLt9xWXG7vDzibQEhytf0l96KuOsZRcJ8CL" alt="E-commerce Platform Demo" width="600" style="border-radius: 12px;">
     <br>
-    <img width="96" height="96" src="https://img.icons8.com/color/96/youtube-play.png" alt="youtube-play"/>
+    <p><strong>▶️ Click to watch project demo</strong></p>
   </a>
 </div>
 
