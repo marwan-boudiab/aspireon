@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface MapComponentProps {
   onLocationSelect: (location: { lat: number; lng: number }) => void;
@@ -12,10 +13,11 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect, initialLo
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const defaultLocation = {
-    lat: 33.66648961047091,
-    lng: 35.59977149910993,
+    lat: 0,
+    lng: 0,
   };
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect, initialLo
 
       // Initialize map only if it hasn't been initialized yet
       if (!mapRef.current && mapContainerRef.current) {
-        mapRef.current = L.map(mapContainerRef.current).setView([startLocation.lat, startLocation.lng], 13);
+        mapRef.current = L.map(mapContainerRef.current).setView([startLocation.lat, startLocation.lng], 5);
 
         // Set tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -86,6 +88,16 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect, initialLo
             }
           });
         });
+        
+        // Set loading to false once map is ready
+        mapRef.current.on('load', () => {
+          setIsLoading(false);
+        });
+        
+        // Fallback in case the load event doesn't fire
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       }
     };
 
@@ -107,87 +119,13 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect, initialLo
 
   return (
     <div ref={mapContainerRef} style={{ height: '300px', width: '100%', border: '2px solid #ddd', borderRadius: '1.5rem' }}>
-      Loading map...
+      {isLoading && (
+        <div className="flex h-full w-full items-center justify-center">
+          <Skeleton className="h-full w-full rounded-[1.5rem]" />
+        </div>
+      )}
     </div>
   );
 };
 
 export default MapComponent;
-
-// 'use client'; // Ensure this runs only on the client
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import L from 'leaflet';
-
-// interface MapComponentProps {
-//   onLocationSelect: (location: { lat: number; lng: number }) => void;
-// }
-
-// const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
-//   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-//   const [marker, setMarker] = useState<L.Marker | null>(null); // Track the marker state
-
-//   useEffect(() => {
-//     if (typeof window === 'undefined') return; // Ensure this runs only in the browser
-
-//     if (mapContainerRef.current) {
-//       import('leaflet').then((L) => {
-//         // Initialize map
-//         const map = L.map(mapContainerRef.current as HTMLElement).setView([37.7749, -122.4194], 13); // Default to
-
-//         // Set tile layer
-//         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//           attribution: '&copy; OpenStreetMap contributors',
-//         }).addTo(map);
-
-//         // Define custom marker icon (you can replace this with a custom URL to an image)
-//         const customIcon = L.icon({
-//           iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png', // Default Leaflet icon URL
-//           iconSize: [25, 41], // Size of the icon
-//           iconAnchor: [12, 41], // Point of the icon that will correspond to marker's location
-//           popupAnchor: [1, -34], // Position of the popup relative to the icon
-//           //   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png', // Default shadow
-//           //   shadowSize: [41, 41],
-//         });
-
-//         // Add marker with custom icon at default location
-//         const initialMarker = L.marker([37.7749, -122.4194], { draggable: true, icon: customIcon }).addTo(map);
-
-//         // Update the marker state and call the onLocationSelect prop when the marker is dragged
-//         initialMarker.on('dragend', () => {
-//           const { lat, lng } = initialMarker.getLatLng();
-//           onLocationSelect({ lat, lng });
-//         });
-
-//         // Listen for map clicks to add a marker at the clicked position
-//         map.on('click', (e) => {
-//           const { lat, lng } = e.latlng;
-//           // Remove existing marker if any
-//           if (marker) {
-//             marker.remove();
-//           }
-//           // Add a new marker at clicked position with custom icon
-//           const newMarker = L.marker([lat, lng], { draggable: true, icon: customIcon }).addTo(map);
-//           setMarker(newMarker);
-
-//           // Call the onLocationSelect function to update the form
-//           onLocationSelect({ lat, lng });
-
-//           // Update the marker drag event to also update the location
-//           newMarker.on('dragend', () => {
-//             const { lat, lng } = newMarker.getLatLng();
-//             onLocationSelect({ lat, lng });
-//           });
-//         });
-//       });
-//     }
-//   }, [onLocationSelect, marker]); // Add marker to the dependency array to update state on marker change
-
-//   return (
-//     <div ref={mapContainerRef} style={{ height: '300px', width: '100%', border: '2px solid #ddd' }}>
-//       Loading map...
-//     </div>
-//   );
-// };
-
-// export default MapComponent;
